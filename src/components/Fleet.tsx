@@ -8,6 +8,7 @@ import scorpioNImage from '@/assets/scorpio-n.png'
 import tataSierraImage from '@/assets/tata-sierra.png'
 import hondaCityImage from '@/assets/honda-city.png'
 import xuv700Image from '@/assets/xuv700.png'
+import innovaHycrossImage from '@/assets/innova-hycross.png'
 
 export function Fleet() {
   const navigate = useNavigate()
@@ -123,7 +124,7 @@ export function Fleet() {
     {
       name: 'Toyota Innova Hycross',
       category: 'Premium MPV',
-      image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=600&h=400&fit=crop&auto=format',
+      image: innovaHycrossImage,
       price: 1200,
       rating: 4.8,
       seats: 7,
