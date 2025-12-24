@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { Users, Fuel, Settings, Star } from 'lucide-react'
 import { Button } from './ui/button'
+import scorpioNImage from '@/assets/scorpio-n.png'
 
 export function Fleet() {
   const cars = [
@@ -75,7 +76,7 @@ export function Fleet() {
     {
       name: 'Mahindra Scorpio-N',
       category: 'SUV',
-      image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=600&h=400&fit=crop&auto=format',
+      image: scorpioNImage,
       price: 200,
       rating: 4.8,
       seats: 7,
