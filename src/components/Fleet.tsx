@@ -6,6 +6,7 @@ import { Users, Fuel, Settings, Star } from 'lucide-react'
 import { Button } from './ui/button'
 import scorpioNImage from '@/assets/scorpio-n.png'
 import tataSierraImage from '@/assets/tata-sierra.png'
+import hondaCityImage from '@/assets/honda-city.png'
 
 export function Fleet() {
   const navigate = useNavigate()
@@ -99,7 +100,7 @@ export function Fleet() {
     {
       name: 'Honda City',
       category: 'Sedan',
-      image: 'https://images.unsplash.com/photo-1619682817481-e994891cd1f5?w=600&h=400&fit=crop&auto=format',
+      image: hondaCityImage,
       price: 800,
       rating: 4.7,
       seats: 5,
