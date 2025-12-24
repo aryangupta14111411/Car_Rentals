@@ -74,17 +74,6 @@ export function Fleet() {
       featured: false,
     },
     {
-      name: 'Audi A4',
-      category: 'Executive Sedan',
-      image: 'https://images.unsplash.com/photo-1606664913908-68a6a009f3aa?w=600&h=400&fit=crop&auto=format',
-      price: 75,
-      rating: 4.7,
-      seats: 5,
-      transmission: 'Automatic',
-      fuel: 'Petrol',
-      featured: false,
-    },
-    {
       name: 'Mahindra Scorpio-N',
       category: 'SUV',
       image: scorpioNImage,
