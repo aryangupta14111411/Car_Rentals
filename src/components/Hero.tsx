@@ -167,7 +167,7 @@ export function Hero() {
             >
               <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
                 <div className="w-2 h-2 bg-accent-emerald rounded-full animate-pulse" />
-                <span className="text-white/90 text-sm font-medium">Premium Car Rental Service</span>
+                <span className="text-white/90 text-sm font-medium">Affordable Car Rental Service</span>
               </div>
               
               <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight text-white mb-6">
@@ -191,7 +191,7 @@ export function Hero() {
                   onClick={() => scrollToSection('about')}
                   size="lg"
                   variant="outline"
-                  className="border-white/30 text-white hover:bg-white/10 px-8 py-6 text-lg"
+                  className="bg-white text-foreground border-white hover:bg-white/90 px-8 py-6 text-lg font-semibold"
                 >
                   Learn More
                 </Button>
