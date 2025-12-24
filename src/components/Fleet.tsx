@@ -7,6 +7,7 @@ import { Button } from './ui/button'
 import scorpioNImage from '@/assets/scorpio-n.png'
 import tataSierraImage from '@/assets/tata-sierra.png'
 import hondaCityImage from '@/assets/honda-city.png'
+import xuv700Image from '@/assets/xuv700.png'
 
 export function Fleet() {
   const navigate = useNavigate()
@@ -133,7 +134,7 @@ export function Fleet() {
     {
       name: 'Mahindra XUV700',
       category: 'SUV',
-      image: 'https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=600&h=400&fit=crop&auto=format',
+      image: xuv700Image,
       price: 1100,
       rating: 4.8,
       seats: 7,
