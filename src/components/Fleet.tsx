@@ -98,7 +98,7 @@ export function Fleet() {
   ]
 
   return (
-    <section id="fleet" className="relative py-24 bg-background">
+    <section id="garage" className="relative py-24 bg-background">
       <div className="container mx-auto px-6 sm:px-8 lg:px-12">
         {/* Section Header */}
         <motion.div 
@@ -109,13 +109,13 @@ export function Fleet() {
           className="text-center mb-16"
         >
           <span className="inline-block text-primary font-semibold text-sm uppercase tracking-wider mb-4">
-            Our Fleet
+            Our Garage
           </span>
           <h2 className="font-heading text-4xl sm:text-5xl font-bold text-foreground mb-6">
             Choose Your Perfect Ride
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            From luxury sedans to powerful SUVs, our diverse fleet has the perfect vehicle for every occasion and preference.
+            From luxury sedans to powerful SUVs, our diverse garage has the perfect vehicle for every occasion and preference.
           </p>
         </motion.div>
 

@@ -77,7 +77,7 @@ export function Hero() {
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-8">
               {[
-                { label: 'Fleet', id: 'fleet' },
+                { label: 'Garage', id: 'garage' },
                 { label: 'Services', id: 'services' },
                 { label: 'Why Us', id: 'why-us' },
                 { label: 'About', id: 'about' },
@@ -100,7 +100,7 @@ export function Hero() {
             {/* CTA Button */}
             <div className="hidden md:flex items-center gap-4">
               <Button
-                onClick={() => scrollToSection('fleet')}
+                onClick={() => scrollToSection('garage')}
                 className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-6"
               >
                 Book Now
@@ -130,7 +130,7 @@ export function Hero() {
         >
           <div className="flex flex-col p-6 gap-4">
             {[
-              { label: 'Fleet', id: 'fleet' },
+              { label: 'Garage', id: 'garage' },
               { label: 'Services', id: 'services' },
               { label: 'Why Us', id: 'why-us' },
               { label: 'About', id: 'about' },
@@ -145,7 +145,7 @@ export function Hero() {
               </button>
             ))}
             <Button
-              onClick={() => scrollToSection('fleet')}
+              onClick={() => scrollToSection('garage')}
               className="mt-4 w-full bg-primary hover:bg-primary/90"
             >
               Book Now
@@ -181,11 +181,11 @@ export function Hero() {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button
-                  onClick={() => scrollToSection('fleet')}
+                  onClick={() => scrollToSection('garage')}
                   size="lg"
                   className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8 py-6 text-lg"
                 >
-                  Explore Our Fleet
+                  Explore Our Garage
                 </Button>
                 <Button
                   onClick={() => scrollToSection('about')}
