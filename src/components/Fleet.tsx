@@ -1,11 +1,22 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
 import { Users, Fuel, Settings, Star } from 'lucide-react'
 import { Button } from './ui/button'
 import scorpioNImage from '@/assets/scorpio-n.png'
 
 export function Fleet() {
+  const navigate = useNavigate()
+
+  const handleBookNow = (car: typeof cars[0]) => {
+    const params = new URLSearchParams({
+      car: car.name,
+      price: car.price.toString(),
+      image: car.image,
+    })
+    navigate(`/booking?${params.toString()}`)
+  }
   const cars = [
     {
       name: 'Mercedes-Benz C-Class',
@@ -166,7 +177,10 @@ export function Fleet() {
                     <span className="text-2xl font-bold text-foreground">${car.price}</span>
                     <span className="text-muted-foreground text-sm">/day</span>
                   </div>
-                  <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
+                  <Button 
+                    onClick={() => handleBookNow(car)}
+                    className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                  >
                     Book Now
                   </Button>
                 </div>
