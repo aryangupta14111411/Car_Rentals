@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { Users, Fuel, Settings, Star } from 'lucide-react'
 import { Button } from './ui/button'
 import scorpioNImage from '@/assets/scorpio-n.png'
+import tataSierraImage from '@/assets/tata-sierra.png'
 
 export function Fleet() {
   const navigate = useNavigate()
@@ -80,6 +81,17 @@ export function Fleet() {
       price: 200,
       rating: 4.8,
       seats: 7,
+      transmission: 'Automatic',
+      fuel: 'Petrol',
+      featured: false,
+    },
+    {
+      name: 'Tata Sierra',
+      category: 'SUV',
+      image: tataSierraImage,
+      price: 150,
+      rating: 4.8,
+      seats: 5,
       transmission: 'Automatic',
       fuel: 'Petrol',
       featured: false,
@@ -163,8 +175,8 @@ export function Fleet() {
                 {/* Price & CTA */}
                 <div className="flex items-center justify-between pt-4 border-t border-border">
                   <div>
-                    <span className="text-2xl font-bold text-foreground">${car.price}</span>
-                    <span className="text-muted-foreground text-sm">/day</span>
+                    <span className="text-2xl font-bold text-foreground">Rs.{car.price}</span>
+                    <span className="text-muted-foreground text-sm">/hour</span>
                   </div>
                   <Button 
                     onClick={() => handleBookNow(car)}
