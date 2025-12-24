@@ -72,6 +72,17 @@ export function Fleet() {
       fuel: 'Petrol',
       featured: false,
     },
+    {
+      name: 'Mahindra Scorpio-N',
+      category: 'SUV',
+      image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=600&h=400&fit=crop&auto=format',
+      price: 200,
+      rating: 4.8,
+      seats: 7,
+      transmission: 'Automatic',
+      fuel: 'Petrol',
+      featured: false,
+    },
   ]
 
   return (
