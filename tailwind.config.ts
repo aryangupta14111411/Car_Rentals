@@ -7,7 +7,7 @@ export default {
   theme: {
     container: {
       center: true,
-      padding: 'calc(var(--spacing) * 4)', // 1rem with 14px base = 14px padding
+      padding: 'calc(var(--spacing) * 4)',
       screens: {
         sm: '40rem',
         md: '48rem', 
@@ -18,44 +18,46 @@ export default {
     },
     extend: {
       fontFamily: {
-        bagel: ['Bagel Fat One', 'cursive'],
+        heading: ['Montserrat', 'system-ui', 'sans-serif'],
+        body: ['Inter', 'system-ui', 'sans-serif'],
       },
       colors: {
-        border: "var(--border)",
-        input: "var(--input)",
-        ring: "var(--ring)",
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "var(--primary)",
-          foreground: "var(--primary-foreground)",
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
-          DEFAULT: "var(--secondary)",
-          foreground: "var(--secondary-foreground)",
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
         },
         destructive: {
-          DEFAULT: "var(--destructive)",
-          foreground: "var(--destructive-foreground)",
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
         },
         muted: {
-          DEFAULT: "var(--muted)",
-          foreground: "var(--muted-foreground)",
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
         },
         accent: {
-          DEFAULT: "var(--accent)",
-          foreground: "var(--accent-foreground)",
-          blue: "var(--accent-blue)",
-          emerald: "var(--accent-emerald)",
-          purple: "var(--accent-purple)",
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+          blue: "hsl(var(--accent-blue))",
+          emerald: "hsl(var(--accent-emerald))",
+          orange: "hsl(var(--accent-orange))",
+          gold: "hsl(var(--accent-gold))",
         },
         popover: {
-          DEFAULT: "var(--popover)",
-          foreground: "var(--popover-foreground)",
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
         },
         card: {
-          DEFAULT: "var(--card)",
-          foreground: "var(--card-foreground)",
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
         },
       },
       borderRadius: {
