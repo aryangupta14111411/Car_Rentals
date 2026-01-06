@@ -1,8 +1,15 @@
 'use client'
 
-import { Car, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react'
+import { Car, Mail, Twitter, Instagram, Linkedin } from 'lucide-react'
 
 export function Footer() {
+  const socialLinks = [
+    { Icon: Mail, href: 'mailto:aryandemat5@gmail.com' },
+    { Icon: Twitter, href: '#' },
+    { Icon: Instagram, href: '#' },
+    { Icon: Linkedin, href: 'https://www.linkedin.com/in/aryan-gupta-840a41244/' },
+  ]
+
   return (
     <footer className="bg-foreground text-background py-16">
       <div className="container mx-auto px-6 sm:px-8 lg:px-12">
@@ -17,8 +24,8 @@ export function Footer() {
             </div>
             <p className="text-background/70 mb-6">Premium car rental service with a fleet of 500+ vehicles across 25+ locations.</p>
             <div className="flex gap-4">
-              {[Facebook, Twitter, Instagram, Linkedin].map((Icon, i) => (
-                <a key={i} href="#" className="w-10 h-10 rounded-lg bg-background/10 flex items-center justify-center hover:bg-background/20 transition-colors">
+              {socialLinks.map(({ Icon, href }, i) => (
+                <a key={i} href={href} target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noopener noreferrer' : undefined} className="w-10 h-10 rounded-lg bg-background/10 flex items-center justify-center hover:bg-background/20 transition-colors">
                   <Icon className="w-5 h-5" />
                 </a>
               ))}
@@ -49,9 +56,9 @@ export function Footer() {
           <div>
             <h4 className="font-heading font-bold mb-4">Contact Info</h4>
             <ul className="space-y-3 text-background/70">
-              <li>+1 (555) 123-4567</li>
-              <li>hello@driveelite.com</li>
-              <li>123 Auto Drive<br />Los Angeles, CA 90001</li>
+              <li>7379995812</li>
+              <li>aryandemat5@gmail.com</li>
+              <li>Crossing Republic, 901016<br />Ghaziabad, Uttar Pradesh</li>
             </ul>
           </div>
         </div>
