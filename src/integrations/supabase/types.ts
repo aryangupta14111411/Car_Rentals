@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      bookings: {
+        Row: {
+          car_image: string | null
+          car_name: string
+          created_at: string
+          end_time: string | null
+          id: string
+          price_per_hour: number
+          start_time: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          car_image?: string | null
+          car_name: string
+          created_at?: string
+          end_time?: string | null
+          id?: string
+          price_per_hour: number
+          start_time?: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          car_image?: string | null
+          car_name?: string
+          created_at?: string
+          end_time?: string | null
+          id?: string
+          price_per_hour?: number
+          start_time?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null

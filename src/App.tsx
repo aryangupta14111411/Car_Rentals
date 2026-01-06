@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Hero } from './components/Hero'
 import { Fleet } from './components/Fleet'
 import { Services } from './components/Services'
@@ -8,11 +9,12 @@ import { Contact } from './components/Contact'
 import { Footer } from './components/Footer'
 import { supabase } from '@/integrations/supabase/client'
 import { Session, User } from '@supabase/supabase-js'
-import { LogOut, User as UserIcon } from 'lucide-react'
+import { LogOut, User as UserIcon, Car } from 'lucide-react'
 import { Button } from './components/ui/button'
 import { toast } from 'sonner'
 
 export default function App() {
+  const navigate = useNavigate()
   const [session, setSession] = useState<Session | null>(null)
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
@@ -58,6 +60,15 @@ export default function App() {
       {/* User Menu - Fixed Top Right */}
       {user && (
         <div className="fixed top-4 right-4 z-[101] flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => navigate('/my-rentals')}
+            className="bg-background/90 backdrop-blur-sm shadow-lg border-border gap-2"
+          >
+            <Car className="w-4 h-4" />
+            My Rentals
+          </Button>
           <div className="flex items-center gap-2 bg-background/90 backdrop-blur-sm rounded-full px-4 py-2 shadow-lg border border-border">
             <UserIcon className="w-4 h-4 text-primary" />
             <span className="text-sm font-medium text-foreground truncate max-w-[120px]">

@@ -1,49 +1,77 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { format, differenceInDays } from 'date-fns'
-import { CalendarIcon, ArrowLeft, Car, Clock, CreditCard } from 'lucide-react'
+import { format } from 'date-fns'
+import { ArrowLeft, Car, Clock, CreditCard, Play } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Calendar } from '@/components/ui/calendar'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
-import { cn } from '@/lib/utils'
 import { toast } from '@/hooks/use-toast'
 import { Toaster } from '@/components/ui/toaster'
+import { supabase } from '@/integrations/supabase/client'
 
 export default function Booking() {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   
   const carName = searchParams.get('car') || 'Vehicle'
-  const pricePerDay = parseInt(searchParams.get('price') || '100')
+  const pricePerHour = parseInt(searchParams.get('price') || '100')
   const carImage = searchParams.get('image') || ''
   
-  const [startDate, setStartDate] = useState<Date>()
-  const [endDate, setEndDate] = useState<Date>()
-  
-  const totalDays = startDate && endDate ? Math.max(1, differenceInDays(endDate, startDate) + 1) : 0
-  const totalPrice = totalDays * pricePerDay
+  const [loading, setLoading] = useState(false)
+  const [user, setUser] = useState<any>(null)
 
-  const handleBooking = () => {
-    if (!startDate || !endDate) {
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) {
+        navigate('/auth')
+        return
+      }
+      setUser(user)
+    }
+    checkUser()
+  }, [navigate])
+
+  const handleStartRental = async () => {
+    if (!user) {
+      navigate('/auth')
+      return
+    }
+
+    setLoading(true)
+    
+    const { error } = await supabase
+      .from('bookings')
+      .insert({
+        user_id: user.id,
+        car_name: carName,
+        car_image: carImage,
+        price_per_hour: pricePerHour,
+        start_time: new Date().toISOString(),
+        status: 'active'
+      })
+
+    setLoading(false)
+
+    if (error) {
       toast({
-        title: "Please select dates",
-        description: "Choose both pickup and return dates to proceed.",
+        title: "Booking Failed",
+        description: error.message,
         variant: "destructive",
       })
       return
     }
     
     toast({
-      title: "Booking Confirmed!",
-      description: `Your ${carName} is booked from ${format(startDate, 'PPP')} to ${format(endDate, 'PPP')}.`,
+      title: "Rental Started!",
+      description: `Your ${carName} rental has begun. Track your charges in real-time on My Rentals.`,
     })
+
+    // Navigate to my rentals page
+    setTimeout(() => {
+      navigate('/my-rentals')
+    }, 1500)
   }
 
   return (
@@ -68,142 +96,74 @@ export default function Booking() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="max-w-4xl mx-auto"
+          className="max-w-2xl mx-auto"
         >
-          <h1 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-8">
-            Book Your {carName}
+          <h1 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-8 text-center">
+            Start Your Rental
           </h1>
 
-          <div className="grid md:grid-cols-2 gap-8">
-            {/* Car Preview */}
-            <div className="bg-card rounded-2xl overflow-hidden border border-border">
-              {carImage && (
-                <img 
-                  src={carImage} 
-                  alt={carName}
-                  className="w-full h-48 object-cover"
-                />
-              )}
-              <div className="p-6">
-                <div className="flex items-center gap-2 text-primary mb-2">
-                  <Car className="w-5 h-5" />
-                  <span className="font-semibold">{carName}</span>
-                </div>
-                <p className="text-2xl font-bold text-foreground">
-                  ${pricePerDay}<span className="text-sm text-muted-foreground font-normal">/day</span>
-                </p>
+          {/* Car Preview */}
+          <div className="bg-card rounded-2xl overflow-hidden border border-border mb-8">
+            {carImage && (
+              <img 
+                src={carImage} 
+                alt={carName}
+                className="w-full h-64 object-cover"
+              />
+            )}
+            <div className="p-6">
+              <div className="flex items-center gap-2 text-primary mb-2">
+                <Car className="w-5 h-5" />
+                <span className="font-semibold text-lg">{carName}</span>
               </div>
-            </div>
-
-            {/* Booking Form */}
-            <div className="bg-card rounded-2xl p-6 border border-border">
-              <h2 className="font-heading text-xl font-semibold text-foreground mb-6 flex items-center gap-2">
-                <Clock className="w-5 h-5 text-primary" />
-                Select Rental Duration
-              </h2>
-
-              <div className="space-y-4">
-                {/* Pickup Date */}
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
-                    Pickup Date
-                  </label>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        className={cn(
-                          "w-full justify-start text-left font-normal",
-                          !startDate && "text-muted-foreground"
-                        )}
-                      >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        {startDate ? format(startDate, "PPP") : "Select pickup date"}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={startDate}
-                        onSelect={setStartDate}
-                        disabled={(date) => date < new Date()}
-                        initialFocus
-                        className="pointer-events-auto"
-                      />
-                    </PopoverContent>
-                  </Popover>
-                </div>
-
-                {/* Return Date */}
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
-                    Return Date
-                  </label>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        className={cn(
-                          "w-full justify-start text-left font-normal",
-                          !endDate && "text-muted-foreground"
-                        )}
-                      >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        {endDate ? format(endDate, "PPP") : "Select return date"}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={endDate}
-                        onSelect={setEndDate}
-                        disabled={(date) => date < (startDate || new Date())}
-                        initialFocus
-                        className="pointer-events-auto"
-                      />
-                    </PopoverContent>
-                  </Popover>
-                </div>
-
-                {/* Summary */}
-                {totalDays > 0 && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    className="bg-secondary/50 rounded-lg p-4 mt-6"
-                  >
-                    <h3 className="font-semibold text-foreground mb-3">Booking Summary</h3>
-                    <div className="space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Duration</span>
-                        <span className="text-foreground">{totalDays} day{totalDays > 1 ? 's' : ''}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Rate</span>
-                        <span className="text-foreground">${pricePerDay}/day</span>
-                      </div>
-                      <div className="border-t border-border pt-2 mt-2">
-                        <div className="flex justify-between font-semibold">
-                          <span className="text-foreground">Total</span>
-                          <span className="text-primary text-lg">${totalPrice}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-
-                {/* Book Button */}
-                <Button 
-                  onClick={handleBooking}
-                  className="w-full mt-6 bg-primary hover:bg-primary/90 text-primary-foreground gap-2"
-                  size="lg"
-                >
-                  <CreditCard className="w-4 h-4" />
-                  Confirm Booking
-                </Button>
-              </div>
+              <p className="text-3xl font-bold text-foreground">
+                Rs.{pricePerHour}<span className="text-sm text-muted-foreground font-normal">/hour</span>
+              </p>
             </div>
           </div>
+
+          {/* Rental Info */}
+          <div className="bg-card rounded-2xl p-6 border border-border mb-8">
+            <h2 className="font-heading text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
+              <Clock className="w-5 h-5 text-primary" />
+              How It Works
+            </h2>
+            <ul className="space-y-3 text-muted-foreground">
+              <li className="flex items-start gap-3">
+                <span className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-sm font-semibold">1</span>
+                <span>Click "Start Rental" to begin your hourly rental</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-sm font-semibold">2</span>
+                <span>Track your time and charges in real-time on the "My Rentals" page</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-sm font-semibold">3</span>
+                <span>End your rental anytime and pay only for the hours used</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Start Rental Button */}
+          <Button 
+            onClick={handleStartRental}
+            disabled={loading}
+            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground gap-2 h-14 text-lg"
+            size="lg"
+          >
+            {loading ? (
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary-foreground"></div>
+            ) : (
+              <>
+                <Play className="w-5 h-5" />
+                Start Rental Now
+              </>
+            )}
+          </Button>
+
+          <p className="text-center text-sm text-muted-foreground mt-4">
+            You will be charged Rs.{pricePerHour} per hour. Minimum charge: 1 hour.
+          </p>
         </motion.div>
       </main>
     </div>
