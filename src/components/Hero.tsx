@@ -3,11 +3,32 @@
 import { motion } from 'framer-motion'
 import { Menu, X, Car, MapPin, Calendar, ChevronDown } from 'lucide-react'
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Button } from './ui/button'
+import { supabase } from '@/integrations/supabase/client'
 
 export function Hero() {
+  const navigate = useNavigate()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(() => {
+    // Check auth status
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession()
+      setIsLoggedIn(!!session)
+    }
+    checkAuth()
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setIsLoggedIn(!!session)
+      }
+    )
+
+    return () => subscription.unsubscribe()
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -100,10 +121,10 @@ export function Hero() {
             {/* CTA Button */}
             <div className="hidden md:flex items-center gap-4">
               <Button
-                onClick={() => scrollToSection('garage')}
+                onClick={() => isLoggedIn ? scrollToSection('garage') : navigate('/auth')}
                 className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-6"
               >
-                Book Now
+                {isLoggedIn ? 'Book Now' : 'Login to Book'}
               </Button>
             </div>
 
@@ -145,10 +166,13 @@ export function Hero() {
               </button>
             ))}
             <Button
-              onClick={() => scrollToSection('garage')}
+              onClick={() => {
+                setIsMobileMenuOpen(false)
+                isLoggedIn ? scrollToSection('garage') : navigate('/auth')
+              }}
               className="mt-4 w-full bg-primary hover:bg-primary/90"
             >
-              Book Now
+              {isLoggedIn ? 'Book Now' : 'Login to Book'}
             </Button>
           </div>
         </motion.div>
