@@ -66,23 +66,31 @@ export default function Booking() {
       return
     }
 
+    // Client-side validation for expiry date
+    const expiryDate = new Date(licenseExpiry)
+    if (expiryDate <= new Date()) {
+      toast({
+        title: "Invalid License",
+        description: "Your driving license has expired. Please provide a valid license.",
+        variant: "destructive",
+      })
+      return
+    }
+
     setLoading(true)
     
-    const { error } = await supabase
-      .from('profiles')
-      .update({
-        driving_license_number: licenseNumber,
-        driving_license_name: licenseName,
-        driving_license_expiry: licenseExpiry,
-        kyc_verified: true,
-      })
-      .eq('id', user.id)
+    // Use secure server-side function to verify KYC
+    const { error } = await supabase.rpc('verify_kyc', {
+      p_license_number: licenseNumber.trim(),
+      p_license_name: licenseName.trim(),
+      p_license_expiry: licenseExpiry,
+    })
 
     setLoading(false)
 
     if (error) {
       toast({
-        title: "KYC Failed",
+        title: "KYC Verification Failed",
         description: error.message,
         variant: "destructive",
       })

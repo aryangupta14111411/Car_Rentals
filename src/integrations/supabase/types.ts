@@ -97,7 +97,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      verify_kyc: {
+        Args: {
+          p_license_expiry: string
+          p_license_name: string
+          p_license_number: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
