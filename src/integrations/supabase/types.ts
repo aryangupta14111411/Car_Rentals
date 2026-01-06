@@ -57,24 +57,36 @@ export type Database = {
         Row: {
           avatar_url: string | null
           created_at: string
+          driving_license_expiry: string | null
+          driving_license_name: string | null
+          driving_license_number: string | null
           full_name: string | null
           id: string
+          kyc_verified: boolean
           phone: string | null
           updated_at: string
         }
         Insert: {
           avatar_url?: string | null
           created_at?: string
+          driving_license_expiry?: string | null
+          driving_license_name?: string | null
+          driving_license_number?: string | null
           full_name?: string | null
           id: string
+          kyc_verified?: boolean
           phone?: string | null
           updated_at?: string
         }
         Update: {
           avatar_url?: string | null
           created_at?: string
+          driving_license_expiry?: string | null
+          driving_license_name?: string | null
+          driving_license_number?: string | null
           full_name?: string | null
           id?: string
+          kyc_verified?: boolean
           phone?: string | null
           updated_at?: string
         }
