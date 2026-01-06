@@ -25,9 +25,9 @@ export function Contact() {
           {/* Contact Info */}
           <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-6">
             {[
-              { icon: Phone, title: 'Phone', info: '+1 (555) 123-4567', sub: 'Mon-Sun, 24/7' },
-              { icon: Mail, title: 'Email', info: 'hello@driveelite.com', sub: 'We reply within 24 hours' },
-              { icon: MapPin, title: 'Main Office', info: '123 Auto Drive, Los Angeles, CA', sub: 'Open for walk-ins' },
+              { icon: Phone, title: 'Phone', info: '7379995812', sub: 'Mon-Sun, 24/7' },
+              { icon: Mail, title: 'Email', info: 'aryandemat5@gmail.com', sub: 'We reply within 24 hours' },
+              { icon: MapPin, title: 'Main Office', info: 'Crossing Republic, 901016, Ghaziabad, Uttar Pradesh', sub: 'Open for walk-ins' },
               { icon: Clock, title: 'Working Hours', info: '24/7 Service Available', sub: 'Including holidays' },
             ].map((item) => (
               <div key={item.title} className="flex gap-4 p-4 bg-card rounded-xl border border-border">
