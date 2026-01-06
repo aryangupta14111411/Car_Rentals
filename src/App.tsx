@@ -6,13 +6,15 @@ import { WhyChooseUs } from './components/WhyChooseUs'
 import { About } from './components/About'
 import { Contact } from './components/Contact'
 import { Footer } from './components/Footer'
-import { AuthModal } from './components/AuthModal'
 import { supabase } from '@/integrations/supabase/client'
-import { Session } from '@supabase/supabase-js'
+import { Session, User } from '@supabase/supabase-js'
+import { LogOut, User as UserIcon } from 'lucide-react'
+import { Button } from './components/ui/button'
+import { toast } from 'sonner'
 
 export default function App() {
-  const [showAuth, setShowAuth] = useState(false)
   const [session, setSession] = useState<Session | null>(null)
+  const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -20,23 +22,28 @@ export default function App() {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setSession(session)
-        if (session) {
-          setShowAuth(false)
-        }
+        setUser(session?.user ?? null)
       }
     )
 
     // THEN check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session)
-      if (!session) {
-        setShowAuth(true)
-      }
+      setUser(session?.user ?? null)
       setLoading(false)
     })
 
     return () => subscription.unsubscribe()
   }, [])
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut()
+    if (error) {
+      toast.error('Error logging out')
+    } else {
+      toast.success('Logged out successfully')
+    }
+  }
 
   if (loading) {
     return (
@@ -48,11 +55,26 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <AuthModal 
-        open={showAuth} 
-        onOpenChange={setShowAuth}
-        onSuccess={() => setShowAuth(false)}
-      />
+      {/* User Menu - Fixed Top Right */}
+      {user && (
+        <div className="fixed top-4 right-4 z-[101] flex items-center gap-2">
+          <div className="flex items-center gap-2 bg-background/90 backdrop-blur-sm rounded-full px-4 py-2 shadow-lg border border-border">
+            <UserIcon className="w-4 h-4 text-primary" />
+            <span className="text-sm font-medium text-foreground truncate max-w-[120px]">
+              {user.user_metadata?.full_name || user.email?.split('@')[0]}
+            </span>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleLogout}
+              className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
+            >
+              <LogOut className="w-4 h-4" />
+            </Button>
+          </div>
+        </div>
+      )}
+      
       <main className="relative" role="main">
         <section id="hero" aria-label="Hero section">
           <Hero />
